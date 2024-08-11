@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -21,6 +22,11 @@ public class StudentService {
     }
 
     public void addNewStudent (Student student) {
+        Optional<Student> studentOptional = studentRepository.selectExistsEmail(student.getEmail());
+
+        if(studentOptional.isPresent()) {
+            throw new IllegalArgumentException("Student already exists");
+        }
         studentRepository.save(student);
     }
 }
