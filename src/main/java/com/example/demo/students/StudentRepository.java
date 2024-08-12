@@ -8,10 +8,8 @@ import java.util.Optional;
 public interface StudentRepository
         extends JpaRepository<Student, Long> {
 
-    @Query("SELECT CASE WHEN COUNT(s) > 0 THEN " +
-            "TRUE ELSE FALSE END " +
-            "FROM Student s " +
+    @Query("SELECT s FROM Student s " +
             "WHERE s.email = ?1"
     )
-    Optional<Student> selectExistsEmail(String email);
+    Optional<Student> findStudentByEmail(String email);
 }
